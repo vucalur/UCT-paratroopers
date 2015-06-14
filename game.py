@@ -10,6 +10,7 @@ class Agent:
 
     def registerInitialState(self, state): # inspects the starting state
     """
+
     def __init__(self, index=0):
         self.index = index
 
@@ -23,5 +24,3 @@ class Agent:
         must return an action from Directions.{North, South, East, West, Stop}
         """
         raiseNotDefined()
-
-
