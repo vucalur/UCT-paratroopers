@@ -25,10 +25,15 @@ class ParatroopersGameState(object):
     def _getDirN(self, raw_index):
         """ Returns available moves from a given position (better way : map with borders) """
         dirN = []
-        if raw_index % ParatroopersGameState.gameInstance.K != 0: dirN.append(-1)
-        if raw_index % ParatroopersGameState.gameInstance.K != ParatroopersGameState.gameInstance.K - 1: dirN.append(1)
-        if raw_index <= (ParatroopersGameState.gameInstance.K ** 2 - 1 - ParatroopersGameState.gameInstance.K):  dirN.append(ParatroopersGameState.gameInstance.K)
-        if raw_index >= ParatroopersGameState.gameInstance.K: dirN.append(-ParatroopersGameState.gameInstance.K)
+        K = ParatroopersGameState.gameInstance.K
+        if raw_index % K != 0:
+            dirN.append(-1)
+        if raw_index % K != K - 1:
+            dirN.append(1)
+        if raw_index <= (K ** 2 - 1 - K):
+            dirN.append(K)
+        if raw_index >= K:
+            dirN.append(-K)
         return dirN
 
     def _inside(self, row, column):
@@ -386,7 +391,8 @@ def rankTwoAgents(agent1, agent2, sim_count=10):
 
     print wonGames
     print results
-    print gameResults
+    print gameResults[::2]  # for first agent
+    print gameResults[1::2]  # for second agent
 
 
 def main():
