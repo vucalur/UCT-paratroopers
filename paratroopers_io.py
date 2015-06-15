@@ -27,14 +27,20 @@ def rankTwoAgents(testGame, gameSimulator, agent1, agent2, sim_count=10):
     for i in xrange(sim_count):
         testGame.resetGame()
         result_sim = gameSimulator.playGame()
-        results[0] += result_sim[i % 2]
-        results[1] += result_sim[(i % 2 + 1) % 2]
-        if result_sim[i % 2] > result_sim[(i % 2 + 1) % 2]:
+        result_sim_0 = result_sim[i % 2]
+        result_sim_1 = result_sim[(i % 2 + 1) % 2]
+
+        results[0] += result_sim_0
+        results[1] += result_sim_1
+
+        if result_sim_0 > result_sim_1:
             wonGames[0] += 1
         else:
             wonGames[1] += 1
+
         agent1, agent2 = agent2, agent1
         agent1.player, agent2.player = agent2.player, agent1.player
+
         print result_sim
         gameResults += result_sim
 
