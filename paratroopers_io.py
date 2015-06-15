@@ -63,8 +63,14 @@ def _print_total_scores(agents_scores):
 
 
 def _print_scores(agents_scores):
-    print "Agent1 scores: " + str(agents_scores[0])
-    print "Agent2 scores: " + str(agents_scores[1])
+    print "Agent1 scores:"
+    _print_one_elem_per_line(seq=agents_scores[0])
+    print "Agent2 scores:"
+    _print_one_elem_per_line(seq=agents_scores[1])
+
+
+def _print_one_elem_per_line(seq):
+    print '\n'.join(str(elem) for elem in seq)
 
 
 def create_parser():
