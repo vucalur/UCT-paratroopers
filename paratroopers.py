@@ -391,8 +391,17 @@ def rankTwoAgents(agent1, agent2, sim_count=10):
 
     print wonGames
     print results
-    print gameResults[::2]  # for first agent
-    print gameResults[1::2]  # for second agent
+    printResults(gameResults)
+
+
+def printResults(gameResults):
+    _printSingleAgent(1, gameResults[::2])
+    _printSingleAgent(2, gameResults[1::2])
+
+
+def _printSingleAgent(agent_number, agent_results):
+    print "Agent {0}:".format(str(agent_number))
+    print '\n'.join(str(result) for result in agent_results)
 
 
 def main():

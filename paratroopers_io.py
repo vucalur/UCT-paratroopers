@@ -41,8 +41,7 @@ def rankTwoAgents(testGame, gameSimulator, agent1, agent2, sim_count=10):
     print "Simulation has ended"
     print wonGames
     print results
-    print gameResults[::2]  # for first agent
-    print gameResults[1::2]  # for second agent
+    paratroopers.printResults(gameResults)
 
 
 def create_parser():
