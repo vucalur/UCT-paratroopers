@@ -28,7 +28,7 @@ def rankTwoAgents(testGame, gameSimulator, agent1, agent2, sim_count=10):
         testGame.resetGame()
         result_sim = gameSimulator.playGame()
         result_sim_0 = result_sim[i % 2]
-        result_sim_1 = result_sim[(i % 2 + 1) % 2]
+        result_sim_1 = result_sim[(i + 1) % 2]
 
         results[0] += result_sim_0
         results[1] += result_sim_1
