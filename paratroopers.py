@@ -2,10 +2,12 @@
 Game Logic for Paratroopers
 """
 import copy
+import pygame
 import time
 import random
 
 import UCT
+from config import square_size, margin
 from game import Agent
 import util
 
@@ -141,6 +143,19 @@ class ParatroopersGameState(object):
         else:
             return False
 
+    def printPygame(self, screen):
+        color_by_occ = {0: (30, 30, 30), 1: (220, 0, 0), 2: (0, 220, 0)}
+        for row in xrange(ParatroopersGameState.gameInstance.K):
+            for column in xrange(ParatroopersGameState.gameInstance.K):
+                occ = self._checkOccupancy(self._getRawIndex(row, column))
+                color = color_by_occ[occ]
+
+                pygame.draw.rect(screen, color, (
+                    row * (margin + square_size) + margin,
+                    column * (margin + square_size) + margin, square_size, square_size))
+
+        pygame.display.flip()
+
 
 class ParatroopersGame(object):
     """ Game state, and all the inside mechanics, that are independent of current game state (i.e. do not change through making moves) """
@@ -241,6 +256,15 @@ class GameSimulator(object):
         self.options["printEachMove"] = self.options["printActions"] = self.options["printSummary"] = False
 
     def playGame(self):
+
+        pygame.init()
+
+        K = self.game.K
+
+        screen_size = K * square_size, K * square_size
+        screen = pygame.display.set_mode(screen_size)
+        clock = pygame.time.Clock()
+
         """ Executes the game """
         ### Agent initialization ###
         for agent in xrange(len(self.agents)):
@@ -276,7 +300,7 @@ class GameSimulator(object):
             if self.options.get("printEachMove", False) == True:
                 print "After move {moveCount} by {self.current_agent}".format(**locals())
                 print "Rewards {lista}".format(lista=self.game.gameState.rewardPlayer[1:3])
-                print str(self.game.gameState)
+                self.game.gameState.printPygame(screen)
             self.current_agent = (self.current_agent + 1) % (len(self.agents))
         if self.options.get("printSummary", False) == True:  print 'Total time taken : {self.agentTotalTime}'.format(**locals())
         return self.game.gameState.rewardPlayer[1:3]
