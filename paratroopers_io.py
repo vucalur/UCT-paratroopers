@@ -21,33 +21,50 @@ def testGameSim():
 
 
 def rankTwoAgents(testGame, gameSimulator, agent1, agent2, sim_count=10):
-    results = [0, 0]
-    gameResults = []
-    wonGames = [0, 0]
-    for i in xrange(sim_count):
+    agents_scores = ([], [])
+    for _ in xrange(sim_count):
         testGame.resetGame()
-        result_sim = gameSimulator.playGame()
-        result_sim_0 = result_sim[i % 2]
-        result_sim_1 = result_sim[(i + 1) % 2]
+        agent1_score, agent2_score = gameSimulator.playGame()
 
-        results[0] += result_sim_0
-        results[1] += result_sim_1
-
-        if result_sim_0 > result_sim_1:
-            wonGames[0] += 1
-        else:
-            wonGames[1] += 1
-
-        agent1, agent2 = agent2, agent1
-        agent1.player, agent2.player = agent2.player, agent1.player
-
-        print result_sim
-        gameResults += result_sim
+        agents_scores[0].append(agent1_score)
+        agents_scores[1].append(agent2_score)
+        print (agent1_score, agent2_score)
 
     print "Simulation has ended"
-    print wonGames
-    print results
-    paratroopers.printResults(gameResults)
+    _print_stats(agents_scores)
+
+
+def _print_stats(agents_scores):
+    _print_games_won_count(agents_scores)
+    _print_total_scores(agents_scores)
+    _print_scores(agents_scores)
+
+
+def _print_games_won_count(agents_scores):
+    won_by_1_count = 0
+    won_by_2_count = 0
+    draws = 0
+
+    for agent1_score, agent2_score in zip(*agents_scores):
+        if agent1_score > agent2_score:
+            won_by_1_count += 1
+        elif agent1_score < agent2_score:
+            won_by_2_count += 1
+        else:
+            draws += 1
+
+    print "Won by agent1, by agent2, draws: " + str((won_by_1_count, won_by_2_count, draws))
+
+
+def _print_total_scores(agents_scores):
+    agent1_total_score = sum(agents_scores[0])
+    agent2_total_score = sum(agents_scores[1])
+    print "Total scores: agent1, agent2: " + str((agent1_total_score, agent2_total_score))
+
+
+def _print_scores(agents_scores):
+    print "Agent1 scores: " + str(agents_scores[0])
+    print "Agent2 scores: " + str(agents_scores[1])
 
 
 def create_parser():
